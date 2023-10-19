@@ -16,7 +16,6 @@ public class EmployeeRegistrationApiApplication implements CommandLineRunner {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
-
 	@Override
 	public void run(String... args) throws Exception {
 		//We can add some users to the database here

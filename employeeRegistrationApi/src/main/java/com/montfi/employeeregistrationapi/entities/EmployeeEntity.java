@@ -18,7 +18,7 @@ public class EmployeeEntity {
 
     @jakarta.persistence.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy  = GenerationType.IDENTITY)
     private Long id;
 
     //Now let's create some simple details for our employee
@@ -28,15 +28,5 @@ public class EmployeeEntity {
     private String lastName;
     @Column(name = "email")
     private String email;
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
 
 }
