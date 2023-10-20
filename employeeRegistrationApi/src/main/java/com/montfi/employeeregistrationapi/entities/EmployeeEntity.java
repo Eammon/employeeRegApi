@@ -19,7 +19,7 @@ public class EmployeeEntity {
     @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy  = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     //Now let's create some simple details for our employee
     @Column(name = "first_name")

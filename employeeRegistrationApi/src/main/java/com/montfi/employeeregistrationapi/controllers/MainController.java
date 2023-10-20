@@ -1,8 +1,11 @@
 package com.montfi.employeeregistrationapi.controllers;
 
 import com.montfi.employeeregistrationapi.entities.EmployeeEntity;
+import com.montfi.employeeregistrationapi.exceptions.ResourceNotFoundException;
 import com.montfi.employeeregistrationapi.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +41,75 @@ public class MainController {
     public String createEmployee(@RequestBody EmployeeEntity employee) {
         employeeRepository.save(employee);
         return "Employee created successfully";
+    }
+
+    //Lets add a delete employee endpoint
+    //This endpoint will be mapped to the /delete_employee url
+    //This endpoint will receive a DELETE request
+    //This endpoint will receive a JSON object with the employee details
+    //This endpoint will return a String
+    //This endpoint will delete the employee from the database
+
+    @PostMapping("/delete_employee_by_object")
+    public String deleteEmployee(@RequestBody EmployeeEntity employee){
+        employeeRepository.delete(employee);
+        return "Employee deleted successfully";
+    }
+
+
+    //We have created a new endpoint to get an employee by id.
+    //By using the @PathVariable annotation, we can get the id from the url
+    //We can use the findById method from the repository to find the employee by id.
+    //And using the ResponseEntity class, we can return the employee with a status code.
+    //We can also use some exception handling by throwing our custom Exception in case the employee is not found
+    @GetMapping("{id}")
+    public ResponseEntity<EmployeeEntity> getEmployeeById(@PathVariable long id){
+        EmployeeEntity employee = employeeRepository
+                .findById(((int) id))
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found"));
+
+        //Now we can return the employee with a status code
+        return ResponseEntity.ok(employee);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<EmployeeEntity> deleteEmployeeById(@PathVariable long id){
+        EmployeeEntity employee = employeeRepository
+                .findById(((int) id))
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found"));
+
+        employeeRepository.delete(employee);
+        return ResponseEntity.ok(employee);
+    }
+
+    @PutMapping("update_employee/{id}")
+    public ResponseEntity<EmployeeEntity> updateEmployee(@PathVariable long id,
+                                                         @RequestBody EmployeeEntity oldEmployee) {
+
+        //First we need to find the employee that we want to update
+        //use the find by id method from the repostory  to find the employee by id
+        //Also use some exception handling by throwing our custom Exception in case the employee is not found
+        //If the employee is found, we can update the employee details
+        EmployeeEntity updatedEmployeeEntity = employeeRepository
+                .findById(((int) id))
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found"));
+
+        //Now we can update the employee details
+        updatedEmployeeEntity.setFirstName(
+                oldEmployee.getFirstName());
+        updatedEmployeeEntity.setLastName(
+                oldEmployee.getLastName());
+        updatedEmployeeEntity.setEmail(
+                oldEmployee.getEmail());
+
+        //Now we can save the updated employee to the database
+        EmployeeEntity updatedEmployee = employeeRepository.save(updatedEmployeeEntity);
+
+        //Now we can return the updated employee
+        return ResponseEntity.ok(updatedEmployee);
     }
 
 
