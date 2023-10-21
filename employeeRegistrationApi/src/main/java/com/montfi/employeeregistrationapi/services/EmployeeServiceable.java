@@ -1,7 +1,6 @@
 package com.montfi.employeeregistrationapi.services;
 
 import com.montfi.employeeregistrationapi.entities.EmployeeEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,10 +12,10 @@ public interface EmployeeServiceable {
     //And we will use the methods in the EmployeeController class
 
     List<EmployeeEntity> getAllEmployees();
-    ResponseEntity<EmployeeEntity> createEmployee(@RequestBody EmployeeEntity employee);
-    ResponseEntity<EmployeeEntity> deleteEmployee(@RequestBody EmployeeEntity employee);
-    ResponseEntity<EmployeeEntity> deleteEmployeeById(@PathVariable long id);
-    ResponseEntity<EmployeeEntity> updateEmployee(@PathVariable long id,
+    EmployeeEntity createEmployee(@RequestBody EmployeeEntity employee);
+    void deleteEmployeeByObj(@RequestBody EmployeeEntity employee);
+    EmployeeEntity deleteEmployeeById(@PathVariable long id);
+    EmployeeEntity updateEmployee(@PathVariable long id,
                                                   @RequestBody EmployeeEntity oldEmployee);
 
 
